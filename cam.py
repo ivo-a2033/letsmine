@@ -35,7 +35,7 @@ class Camera:
             # push cam just enough so centroid is back on the circle edge
             over = dist - dead_r
             self.x += (dx / dist) * over * PAN_SPEED
-            self.y += (dy / dist) * over * PAN_SPEED
+            self.y += (dy / dist) * over * PAN_SPEED 
 
         sep = ((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2) ** 0.5
         idx = 0

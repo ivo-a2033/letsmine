@@ -25,7 +25,8 @@ class Player:
         if keys[self.right]: self.vx =  SPEED
         if keys[self.jump] and self.on_ground:
             self.vy = JUMP_VEL
-        self.vy = min(self.vy + GRAVITY, MAX_FALL)
+        if not self.on_ground:          # ← only gravity when airborne
+            self.vy = min(self.vy + GRAVITY, MAX_FALL)        
         self.x += self.vx
         self._resolve(world, T, 'x')
         self.on_ground = False
@@ -45,12 +46,12 @@ class Player:
                 ty = (row - self.or_) * T
                 ox = min(self.x+self.w, tx+T) - max(self.x, tx)
                 oy = min(self.y+self.h, ty+T) - max(self.y, ty)
-                if ox <= 0 or oy <= 0: continue
+                if ox < -0.1 or oy < -0.1: continue   # allow tiny float slop
                 if axis == 'x':
                     self.x += ox if self.vx < 0 else -ox
                     self.vx = 0
                 else:
-                    if self.vy > 0: self.y -= oy; self.on_ground = True
+                    if self.vy >= 0: self.y -= oy; self.on_ground = True
                     else:           self.y += oy
                     self.vy = 0
 
